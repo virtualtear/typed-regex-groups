@@ -1,0 +1,72 @@
+{
+  "name": "ts-lib-base",
+  "version": "0.0.2",
+  "description": "A GitHub template for starting ESM-only TypeScript libraries, with build, test, lint, and release tooling wired up.",
+  "keywords": [],
+  "homepage": "https://github.com/virtualtear/ts-lib-base#readme",
+  "bugs": {
+    "url": "https://github.com/virtualtear/ts-lib-base/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virtualtear/ts-lib-base.git"
+  },
+  "license": "MIT",
+  "author": "virtualtear",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@11.17.0",
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "lint-staged": {
+    "*.{ts,js,json,jsonc}": [
+      "biome check --write --no-errors-on-unmatched"
+    ]
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "bench": "vitest bench --run",
+    "build": "tsdown",
+    "check:package": "publint --strict && attw --pack . --profile esm-only",
+    "lint": "biome check",
+    "lint:fix": "biome check --write",
+    "verify": "pnpm typecheck && pnpm lint && pnpm test && pnpm build && pnpm check:package",
+    "prepare": "husky",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish",
+    "setup:template": "node scripts/setup.ts"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.5",
+    "@biomejs/biome": "^2.5.5",
+    "@changesets/cli": "^2.31.1",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
+    "@types/node": "^26.1.1",
+    "@vitest/coverage-v8": "^4.1.10",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.2.0",
+    "publint": "^0.3.22",
+    "tsdown": "^0.22.14",
+    "typescript": "^7.0.2",
+    "vitest": "^4.1.10"
+  }
+}
