@@ -1,6 +1,6 @@
 {
   "name": "typed-regex-groups",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Named RegExp capture groups typed from the pattern literal.",
   "keywords": [
     "regex",
