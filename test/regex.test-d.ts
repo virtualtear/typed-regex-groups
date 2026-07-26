@@ -36,11 +36,17 @@ describe('typedRegex', () => {
     >();
   });
 
+  it('leaves groups undefined when the pattern names none', () => {
+    expectTypeOf(typedRegex('\\d+').exec('42')!.groups).toEqualTypeOf<undefined>();
+  });
+
   it('rejects an invalid flags string', () => {
     // @ts-expect-error unknown flag letter
     typedRegex('(?<a>x)', 'q');
     // @ts-expect-error repeated flag letter
     typedRegex('(?<a>x)', 'gg');
+    // @ts-expect-error u and v are mutually exclusive
+    typedRegex('(?<a>x)', 'uv');
   });
 
   it('rejects a group name the pattern does not define', () => {
