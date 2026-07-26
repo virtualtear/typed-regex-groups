@@ -57,7 +57,16 @@ describe('typedRegex', () => {
     expect(re.lastIndex).toBe(2);
   });
 
+  it('throws the native TypeError when matchAll is used without the global flag', () => {
+    expect(() => typedRegex('(?<n>\\d)').matchAll('a1b2')).toThrow(TypeError);
+  });
+
   it('throws the native SyntaxError for a malformed pattern', () => {
     expect(() => typedRegex('(?<a>x')).toThrow(SyntaxError);
+  });
+
+  it('throws the native SyntaxError for flags the type layer also rejects', () => {
+    // @ts-expect-error u and v are mutually exclusive
+    expect(() => typedRegex('(?<a>x)', 'uv')).toThrow(SyntaxError);
   });
 });

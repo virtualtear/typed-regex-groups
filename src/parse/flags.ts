@@ -20,17 +20,32 @@ export interface FlagError<M extends string> {
 
 type FlagLetter = 'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y';
 
+// `u` and `v` select different character-class grammars, so the RegExp constructor
+// rejects a flags string carrying both.
+type Conflicts<Head extends string, Seen extends string> = Head extends 'u'
+  ? 'v' extends Seen
+    ? true
+    : false
+  : Head extends 'v'
+    ? 'u' extends Seen
+      ? true
+      : false
+    : false;
+
 type CheckFlags<F extends string, Seen extends string> = F extends `${infer Head}${infer Rest}`
   ? Head extends FlagLetter
     ? Head extends Seen
       ? FlagError<`repeated flag: ${Head}`>
-      : CheckFlags<Rest, Seen | Head>
+      : Conflicts<Head, Seen> extends true
+        ? FlagError<'u and v cannot be combined'>
+        : CheckFlags<Rest, Seen | Head>
     : FlagError<`unknown flag: ${Head}`>
   : null;
 
 /**
  * Validates a regex flags string, mirroring the `SyntaxError` conditions of the
- * `RegExp` constructor: only `d g i m s u v y`, each at most once.
+ * `RegExp` constructor: only `d g i m s u v y`, each at most once, and never `u`
+ * together with `v`.
  *
  * @returns `F` when valid, a {@link FlagError} otherwise, and `F` unchanged when `F`
  * is not a literal type.
