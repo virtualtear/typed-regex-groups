@@ -1,8 +1,17 @@
 {
   "name": "typed-regex-groups",
   "version": "0.1.0",
-  "description": "TypeScript Library to safely parse RegeEx Groups",
-  "keywords": [],
+  "description": "Named RegExp capture groups typed from the pattern literal.",
+  "keywords": [
+    "regex",
+    "regexp",
+    "named-groups",
+    "capture-groups",
+    "typescript",
+    "type-level",
+    "template-literal-types",
+    "type-safe"
+  ],
   "homepage": "https://github.com/virtualtear/typed-regex-groups#readme",
   "bugs": {
     "url": "https://github.com/virtualtear/typed-regex-groups/issues"
